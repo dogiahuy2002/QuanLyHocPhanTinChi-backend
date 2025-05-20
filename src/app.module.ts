@@ -48,12 +48,15 @@ import { ChatModule } from "./chat/chat.module";
         password: configService.get<string>("REDIS_PASSWORD"),
       }),
     }),
-    TypeOrmModule.forRoot({
-      type: "postgres",
-      url: process.env.DATABASE_URL,
-      entities: [],
-      synchronize: true,
-      autoLoadEntities: true,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (config: ConfigService) => ({
+        type: "postgres",
+        url: config.get<string>("DATABASE_URL"),
+        autoLoadEntities: true,
+        synchronize: true,
+      }),
     }),
 
     BullModule.forRootAsync({
