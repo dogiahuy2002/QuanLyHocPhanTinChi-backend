@@ -10,7 +10,7 @@ async function bootstrap() {
 
   // ⚠️ Thêm dòng này để cho phép frontend gọi API
   app.enableCors({
-    origin: "*", // URL frontend của bạn
+    origin: "https://quan-ly-hoc-phan-tin-chi-frontend.vercel.app", // URL frontend của bạn
     credentials: true, // Nếu bạn có dùng cookie / token gửi qua header
   });
 
