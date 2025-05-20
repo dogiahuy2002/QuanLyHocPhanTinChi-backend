@@ -48,16 +48,6 @@ import { ChatModule } from "./chat/chat.module";
         password: configService.get<string>("REDIS_PASSWORD"),
       }),
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (config: ConfigService) => ({
-        type: "postgres",
-        url: config.get<string>("DATABASE_URL"),
-        autoLoadEntities: true,
-        synchronize: true,
-      }),
-    }),
 
     BullModule.forRootAsync({
       imports: [ConfigModule],
