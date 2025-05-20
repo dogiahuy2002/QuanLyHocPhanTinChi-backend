@@ -10,7 +10,7 @@ async function bootstrap() {
 
   // ⚠️ Thêm dòng này để cho phép frontend gọi API
   app.enableCors({
-    origin: "http://localhost:5173", // URL frontend của bạn
+    origin: "*", // URL frontend của bạn
     credentials: true, // Nếu bạn có dùng cookie / token gửi qua header
   });
 
