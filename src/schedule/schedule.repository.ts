@@ -27,9 +27,7 @@ export class ScheduleRepository {
 
   async getAllSchedule(student_id: number) {
     const data = await this.prisma.schedule.findMany({
-      where: {
-        student_id,
-      },
+      where: { student_id },
       include: {
         class: {
           include: {
@@ -39,15 +37,19 @@ export class ScheduleRepository {
         },
       },
     });
+
     const final = await Promise.all(
-      //find class detail to replace enrollment
       data.map(async (item) => {
-        const class_detail = await this.prisma.classDetail.findFirst({
-          where: {
-            class_id: item.class_id,
-            class_detail_id: item.class.enrollments[0].class_detail_id,
-          },
-        });
+        const enrollment = item.class.enrollments[0];
+        const class_detail = enrollment
+          ? await this.prisma.classDetail.findFirst({
+              where: {
+                class_id: item.class_id,
+                class_detail_id: enrollment.class_detail_id,
+              },
+            })
+          : null;
+
         return {
           ...item,
           class: {
@@ -57,6 +59,7 @@ export class ScheduleRepository {
         };
       })
     );
+
     return final;
   }
 
