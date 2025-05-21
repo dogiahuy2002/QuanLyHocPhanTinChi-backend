@@ -10,8 +10,10 @@ async function bootstrap() {
 
   // ⚠️ Thêm dòng này để cho phép frontend gọi API
   app.enableCors({
-    origin: "https://quan-ly-hoc-phan-tin-chi-frontend.vercel.app", // URL frontend của bạn
-    credentials: true, // Nếu bạn có dùng cookie / token gửi qua header
+    origin: "https://quan-ly-hoc-phan-tin-chi-frontend.vercel.app",
+    credentials: true,
+    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   });
 
   const config = new DocumentBuilder()
